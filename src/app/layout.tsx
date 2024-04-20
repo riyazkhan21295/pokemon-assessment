@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import StyledComponentsRegistry from "./lib/styled-components-registry";
+
+import StyledComponentsRegistry from "@/lib/styled-components-registry";
+import ReactQueryProviders from "@/lib/react-query-providers";
 
 export const metadata: Metadata = {
   title: "Pokemon Assessment",
@@ -14,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <ReactQueryProviders>{children}</ReactQueryProviders>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
