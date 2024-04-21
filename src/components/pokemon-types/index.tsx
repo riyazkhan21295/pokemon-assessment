@@ -1,11 +1,15 @@
+import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchPokemonTypes } from "@/services/api-services";
 import { EPokemonTypes, EPokemonTypesColors } from "@/types/enums";
 
-import CardCheckbox from "@/components/card-checkbox";
-import styled from "styled-components";
+import PokemonTypeCard from "@/components/pokemon-type-card";
+
 import { Flex } from "@/styles";
+
+import useCheckbox from "@/hooks/useCheckbox";
+import { useEffect } from "react";
 
 type TPokemonTypes = `${EPokemonTypes}`;
 
@@ -15,9 +19,6 @@ type TResultDatatype = {
 };
 
 type TDatatype = {
-  // count: number;
-  // next: boolean | null;
-  // previous: boolean | null;
   results: TResultDatatype[];
 };
 
@@ -25,11 +26,21 @@ type IProps = {
   onSelect: (items: any[]) => void;
 };
 
-export default function PokemonTypes({ onSelect }: IProps) {
+export default function PokemonTypes({ onSelect: onSelectCallback }: IProps) {
   const { isLoading, isError, data } = useQuery<TDatatype>({
     queryKey: ["pokemon-types"],
     queryFn: fetchPokemonTypes,
   });
+
+  const { selectedItems, onSelect } = useCheckbox({ multiple: true });
+
+  useEffect(() => {
+    const newSelectedItems = (data?.results || []).filter((item) => {
+      return selectedItems.includes(item.name);
+    });
+
+    onSelectCallback?.(newSelectedItems);
+  }, [selectedItems]);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -41,39 +52,29 @@ export default function PokemonTypes({ onSelect }: IProps) {
     );
   });
 
-  const icons = filteredResults.reduce((acc, cv) => {
-    return {
-      ...acc,
-      [cv.name]: {
-        imageSrc: require(`@/assets/pokemon-types/${cv.name}.png`),
-        styles: {
-          backgroundColor: EPokemonTypesColors[cv.name],
-        },
-      },
-    };
-  }, {});
-
   return (
-    <Container direction="column" gap="8px">
+    <Container direction="column" gap="8px" align="center">
       <PokemonType>Pokemon Types</PokemonType>
 
-      <CardCheckbox
-        selectable
-        multiple
-        items={filteredResults.map((item) => ({
-          ...item,
-          styles: {
-            backgroundColor: EPokemonTypesColors[item.name],
-          },
-        }))}
-        labelKey="name"
-        valueKey="name"
-        onSelect={onSelect}
-        styles={{
-          itemContainer: { minWidth: 100 },
-        }}
-        icons={icons}
-      />
+      <PokemonTypeListContainer gap="8px" wrap="wrap" justify="center">
+        {filteredResults.map((item) => {
+          const isSelected = selectedItems.includes(item.name);
+
+          return (
+            <PokemonTypeCardContainer
+              key={item.name}
+              $pokemonType={item.name}
+              $isSelected={isSelected}
+              onClick={() => onSelect(item.name)}
+            >
+              <PokemonTypeCard
+                pokemonType={item.name}
+                iconSize={{ width: 24, height: 24 }}
+              />
+            </PokemonTypeCardContainer>
+          );
+        })}
+      </PokemonTypeListContainer>
     </Container>
   );
 }
@@ -81,5 +82,33 @@ export default function PokemonTypes({ onSelect }: IProps) {
 const Container = styled(Flex)``;
 
 const PokemonType = styled.h4`
-  text-transform: uppercase;
+  text-transform: capitalize;
+`;
+
+const PokemonTypeListContainer = styled(Flex)`
+  padding: 4px;
+`;
+
+const PokemonTypeCardContainer = styled.div<{
+  $pokemonType: string;
+  $isSelected: boolean;
+}>`
+  cursor: pointer;
+
+  ${(props) => {
+    const color =
+      EPokemonTypesColors[
+        props.$pokemonType as keyof typeof EPokemonTypesColors
+      ];
+
+    return `
+      border-radius: 4px;
+      background-color: ${props.$isSelected ? color : "#fff"};
+      
+      &:hover {
+        background-color: ${color};
+        transition: all 0.5s;
+      }
+    `;
+  }}
 `;

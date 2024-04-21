@@ -31,7 +31,6 @@ export default function PokemonCard({
 const Container = styled(Flex)`
   cursor: pointer;
 
-  background-color: #fff;
   padding: 8px;
   border-radius: 4px;
 

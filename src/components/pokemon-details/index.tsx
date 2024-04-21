@@ -1,10 +1,10 @@
-import Image from "next/image";
 import styled from "styled-components";
 
 import { Flex } from "@/styles";
-import { EPokemonTypes, EPokemonTypesColors } from "@/types/enums";
+import { EPokemonTypes } from "@/types/enums";
 
-import PokemonImage from "../pokemon-image";
+import PokemonImage from "@/components/pokemon-image";
+import PokemonTypeCard from "@/components/pokemon-type-card";
 
 type TSpritesDatatype = {
   front_default: string;
@@ -49,32 +49,23 @@ export default function PokemonDetails({
       <PokemonName>{pokemonName}</PokemonName>
 
       <Flex gap="8px">
-        {types.map((pokemonType) => {
+        {types.map((type) => {
+          const pokemonType = type.type.name;
           if (
             [EPokemonTypes.unknown, EPokemonTypes.shadow].includes(
-              pokemonType.type.name as any
+              pokemonType as any
             )
           ) {
             return null;
           }
 
           return (
-            <PokemonTypeIconContainer
-              key={pokemonType.type.name}
-              pokemonType={pokemonType.type.name}
-              align="center"
-              gap="8px"
-            >
-              <PokemonTypeName>{pokemonType.type.name}</PokemonTypeName>
-
-              <Image
-                loading="lazy"
-                src={require(`@/assets/pokemon-types/${pokemonType.type.name}.png`)}
-                width={25}
-                height={25}
-                alt={pokemonType.type.name}
-              />
-            </PokemonTypeIconContainer>
+            <PokemonTypeCard
+              key={pokemonType}
+              pokemonType={pokemonType as keyof typeof EPokemonTypes}
+              iconSize={{ width: 24, height: 24 }}
+              showLabel={false}
+            />
           );
         })}
       </Flex>
@@ -94,18 +85,4 @@ const PokemonId = styled.div`
 
 const PokemonName = styled.h3`
   text-transform: uppercase;
-`;
-
-const PokemonTypeIconContainer = styled(Flex)<{ pokemonType: string }>`
-  background-color: ${(props) =>
-    EPokemonTypesColors[props.pokemonType as keyof typeof EPokemonTypesColors]};
-
-  padding: 8px;
-  border-radius: 4px;
-`;
-
-const PokemonTypeName = styled.span`
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 1px;
 `;

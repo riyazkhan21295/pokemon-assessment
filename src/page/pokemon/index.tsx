@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import styled from "styled-components";
 
 import { CardContainer as StyledCardContainer, Flex } from "@/styles";
@@ -20,7 +20,6 @@ type TDatatype = {
 };
 
 export default function PokemonPage() {
-  const router = useRouter();
   const params = useParams();
   const pokemonName = params.name as string;
 
@@ -44,21 +43,37 @@ export default function PokemonPage() {
   const { id, sprites, stats, types } = data;
 
   return (
-    <CardContainer>
-      <Flex justify="space-evenly" align="center">
+    <Container>
+      <CardContainer>
         <PokemonDetails
           pokemonId={id}
           pokemonName={pokemonName}
           sprites={sprites}
           types={types}
         />
+      </CardContainer>
 
+      <CardContainer>
         <PokemonStats stats={stats} />
-      </Flex>
-    </CardContainer>
+      </CardContainer>
+    </Container>
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
+`;
+
 const CardContainer = styled(StyledCardContainer)`
-  /* min-height: 400px; */
+  width: 100%;
+
+  @media (min-width: 600px) {
+    width: 50%;
+  }
 `;

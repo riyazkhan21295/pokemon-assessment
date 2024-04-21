@@ -6,12 +6,13 @@ import { Flex } from "@/styles";
 
 import { fetchPokemonList } from "@/services/api-services";
 import PokemonCard from "@/components/pokemon-card";
+import PokemonTypeCard from "@/components/pokemon-type-card";
+import { EPokemonTypes } from "@/types/enums";
 
 type IProps = {
   pokemonType: string;
   apiUrl: string;
   searchedPokemonName?: string | undefined;
-  renderTitle?: any;
 };
 
 type TDatatype = {
@@ -27,7 +28,6 @@ export default function PokemonList({
   apiUrl,
   pokemonType,
   searchedPokemonName,
-  renderTitle,
 }: IProps) {
   const router = useRouter();
 
@@ -52,45 +52,63 @@ export default function PokemonList({
     });
   }
 
+  const handleOnClick = (pokemonName: string) => {
+    router.push(`/pokemon/${pokemonName}`);
+  };
+
   if (filteredPokemonList.length === 0) {
     return null;
   }
 
   return (
-    <Flex direction="column" gap="16px">
-      <Flex>{renderTitle}</Flex>
+    <Container direction="column" gap="16px">
+      <PokemonTypeCardContainer justify="center">
+        <PokemonTypeCard
+          pokemonType={pokemonType as keyof typeof EPokemonTypes}
+          iconSize={{ width: 32, height: 32 }}
+        />
+      </PokemonTypeCardContainer>
 
-      <Container>
+      <PokemonListContainer wrap="wrap" gap="16px" justify="center">
         {filteredPokemonList.map((pokemonItem) => {
           const pokemonId = pokemonItem.pokemon.url
             .split("/")
             .filter((_) => _)
             .pop();
+          const pokemonName = pokemonItem.pokemon.name;
 
           return (
-            <div
+            <PokemonCardContainer
               key={pokemonId}
-              onClick={() =>
-                router.push(`/pokemon/${pokemonItem.pokemon.name}`)
-              }
+              onClick={() => handleOnClick(pokemonName)}
             >
               <PokemonCard
                 pokemonType={pokemonType}
                 pokemonId={pokemonId!}
-                pokemonName={pokemonItem.pokemon.name}
+                pokemonName={pokemonName}
               />
-            </div>
+            </PokemonCardContainer>
           );
         })}
-      </Container>
-    </Flex>
+      </PokemonListContainer>
+    </Container>
   );
 }
 
-const Container = styled.div`
+const Container = styled(Flex)``;
+
+const PokemonTypeCardContainer = styled(Flex)``;
+
+const PokemonListContainer = styled(Flex)`
+  padding: 16px;
+`;
+
+const PokemonCardContainer = styled.div`
+  background-color: #fff;
+
   width: 100%;
 
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
+  @media (min-width: 600px) {
+    width: 200px;
+  }
 `;
