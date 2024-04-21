@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPokemonTypes } from "@/services/api-services";
 import { EPokemonTypes } from "@/types/enums";
 
-import CardCheckbox from "@/ui/card-checkbox";
+import CardCheckbox from "@/components/card-checkbox";
 
 type TPokemonTypes = `${EPokemonTypes}`;
 
@@ -19,7 +19,11 @@ type TDatatype = {
   results: TResultDatatype[];
 };
 
-export default function PokemonTypes() {
+type IProps = {
+  onSelect: (items: any[]) => void;
+};
+
+export default function PokemonTypes({ onSelect }: IProps) {
   const { isLoading, isError, data } = useQuery<TDatatype>({
     queryKey: ["pokemon-types"],
     queryFn: fetchPokemonTypes,
@@ -36,7 +40,7 @@ export default function PokemonTypes() {
       items={data?.results || []}
       labelKey="name"
       valueKey="name"
-      onSelect={() => {}}
+      onSelect={onSelect}
     />
   );
 }

@@ -1,8 +1,8 @@
 const API_BASE_URL = "https://pokeapi.co/api/v2";
 
-export async function fetchPokemonTypes() {
+async function fetchData(apiUrl: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/type`);
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -15,4 +15,12 @@ export async function fetchPokemonTypes() {
     console.error("Error:", error.message);
     return null;
   }
+}
+
+export async function fetchPokemonTypes() {
+  return fetchData(`${API_BASE_URL}/type`);
+}
+
+export async function fetchPokemonList(apiUrl: string) {
+  return fetchData(apiUrl);
 }

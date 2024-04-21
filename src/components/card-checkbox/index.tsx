@@ -11,10 +11,10 @@ type IProps = {
   valueKey: string;
   onSelect: (items: any[] | any) => void;
   styles?: {
-    container: CSSProperties;
-    itemContainer: CSSProperties;
-    iconContainer: CSSProperties;
-    text: CSSProperties;
+    container?: CSSProperties;
+    itemContainer?: CSSProperties;
+    iconContainer?: CSSProperties;
+    text?: CSSProperties;
   };
 };
 
