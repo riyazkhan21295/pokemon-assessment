@@ -12,7 +12,7 @@ export default function PokemonListPage() {
   const [selectedTypes, setSelectedTypes] = useState<any[]>([]);
 
   return (
-    <Flex direction="column" gap="16px">
+    <Flex direction="column" gap="32px">
       <PokemonTypes onSelect={setSelectedTypes} />
 
       {selectedTypes.length > 0 ? (

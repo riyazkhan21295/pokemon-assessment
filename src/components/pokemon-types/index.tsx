@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchPokemonTypes } from "@/services/api-services";
-import { EPokemonTypes } from "@/types/enums";
+import { EPokemonTypes, EPokemonTypesColors } from "@/types/enums";
 
 import CardCheckbox from "@/components/card-checkbox";
+import styled from "styled-components";
+import { Flex } from "@/styles";
 
 type TPokemonTypes = `${EPokemonTypes}`;
 
@@ -33,14 +35,52 @@ export default function PokemonTypes({ onSelect }: IProps) {
 
   if (isError) return <p>Error</p>;
 
+  const filteredResults = (data?.results || []).filter((pokemonType) => {
+    return ![EPokemonTypes.unknown, EPokemonTypes.shadow].includes(
+      pokemonType.name as any
+    );
+  });
+
+  const icons = filteredResults.reduce((acc, cv) => {
+    return {
+      ...acc,
+      [cv.name]: {
+        imageSrc: require(`@/assets/pokemon-types/${cv.name}.png`),
+        styles: {
+          backgroundColor: EPokemonTypesColors[cv.name],
+        },
+      },
+    };
+  }, {});
+
   return (
-    <CardCheckbox
-      selectable
-      multiple
-      items={data?.results || []}
-      labelKey="name"
-      valueKey="name"
-      onSelect={onSelect}
-    />
+    <Container direction="column" gap="8px" align="center">
+      <PokemonType>Pokemon Types</PokemonType>
+
+      <CardCheckbox
+        selectable
+        multiple
+        items={filteredResults.map((item) => ({
+          ...item,
+          styles: {
+            backgroundColor: EPokemonTypesColors[item.name],
+          },
+        }))}
+        labelKey="name"
+        valueKey="name"
+        onSelect={onSelect}
+        styles={{
+          container: { justifyContent: "center" },
+          itemContainer: { minWidth: 100 },
+        }}
+        icons={icons}
+      />
+    </Container>
   );
 }
+
+const Container = styled(Flex)``;
+
+const PokemonType = styled.h4`
+  text-transform: uppercase;
+`;

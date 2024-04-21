@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Flex } from "@/styles";
+
 import PokemonList from "@/components/pokemon-list";
 
 type IProps = {
@@ -9,10 +10,12 @@ type IProps = {
 
 export default function PokemonListContainer({ pokemonTypes }: IProps) {
   return (
-    <Container direction="column" gap="16px">
-      {/* Search */}
+    <Container direction="column" gap="32px" align="center">
+      <Flex>
+        <InputField placeholder="Search Pokemon" />
+      </Flex>
 
-      {[...pokemonTypes.reverse()].map((pokemonType) => {
+      {pokemonTypes.map((pokemonType) => {
         return (
           <PokemonListItemContainer
             key={pokemonType.name}
@@ -34,6 +37,16 @@ export default function PokemonListContainer({ pokemonTypes }: IProps) {
 }
 
 const Container = styled(Flex)``;
+
+const InputField = styled.input`
+  min-width: 320px;
+  padding: 8px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  font-size: 16px;
+`;
 
 const PokemonListItemContainer = styled(Flex)``;
 

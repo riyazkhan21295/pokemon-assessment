@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 import { CardContainer as StyledCardContainer, Flex } from "@/styles";
 import { CSSProperties, useState } from "react";
+import Image from "next/image";
 
 type IProps = {
   selectable?: boolean;
   multiple?: boolean;
-  items: any[];
+  items: { [key: string]: any; styles: CSSProperties }[];
   labelKey: string;
   valueKey: string;
   onSelect: (items: any[] | any) => void;
@@ -16,6 +17,7 @@ type IProps = {
     iconContainer?: CSSProperties;
     text?: CSSProperties;
   };
+  icons?: { [key: string]: { imageSrc: string; styles?: any } };
 };
 
 export default function CardCheckbox({
@@ -26,6 +28,7 @@ export default function CardCheckbox({
   valueKey,
   onSelect,
   styles,
+  icons,
 }: IProps) {
   const [selectedItemsValue, setSelectedItemsValue] = useState<any[]>([]);
 
@@ -64,15 +67,27 @@ export default function CardCheckbox({
           <ItemContainer
             key={item[valueKey]}
             onClick={() => handleOnClick(item)}
-            style={{
-              ...styles?.itemContainer,
-              ...(selectedItemsValue.includes(item[valueKey]) && {
-                border: "1px solid black",
-              }),
-            }}
+            style={{ ...styles?.itemContainer }}
+            color={item.styles.backgroundColor}
+            isSelected={selectedItemsValue.includes(item[valueKey])}
           >
-            {/* {icon && <ItemIcon>{icon}</ItemIcon>} */}
             <ItemText style={{ ...styles?.text }}>{item[labelKey]}</ItemText>
+
+            {icons && icons?.[item[valueKey]] && (
+              <ItemIcon
+                justify="center"
+                align="center"
+                style={{ ...icons?.[item[valueKey]]?.styles }}
+              >
+                <Image
+                  src={icons?.[item[valueKey]]?.imageSrc}
+                  width={16}
+                  height={16}
+                  alt={item[valueKey]}
+                  loading="lazy"
+                />
+              </ItemIcon>
+            )}
           </ItemContainer>
         );
       })}
@@ -82,19 +97,45 @@ export default function CardCheckbox({
 
 const Container = styled(Flex)``;
 
-const ItemContainer = styled(StyledCardContainer)`
+type TItemContainerStyledProps = {
+  color?: string;
+  isSelected?: boolean;
+};
+
+const ItemContainer = styled(StyledCardContainer)<TItemContainerStyledProps>`
   cursor: pointer;
 
   padding: 8px;
 
-  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  ${(props) => {
+    if (props.isSelected) {
+      return `
+        border: 1px solid #fff;
+        background-color: ${props.color};
+      `;
+    }
+
+    return `
+        border: 1px solid transparent;
+        background-color: #fff;
+      `;
+  }}
 
   &:hover {
-    border: 1px solid red;
+    background-color: ${(props) => props.color};
+    border: 1px solid #fff;
   }
 `;
 
-const ItemIcon = styled.div``;
+const ItemIcon = styled(Flex)`
+  padding: 4px;
+  border-radius: 4px;
+`;
 
 const ItemText = styled.span`
   text-transform: capitalize;
