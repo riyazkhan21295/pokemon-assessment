@@ -1,40 +1,26 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import styled from "styled-components";
 
-import { Flex } from "@/styles";
+import { CardContainer as StyledCardContainer, Flex } from "@/styles";
 
 import Empty from "@/components/empty";
 import PokemonStats from "@/components/pokemon-stats";
 
 import { fetchPokemon } from "@/services/api-services";
-
-type TSpritesDatatype = {
-  front_default: string;
-  other: {
-    dream_world: { front_default: string };
-    "official-artwork": { front_default: string };
-  };
-};
-
-type TStatsDatatype = {
-  base_stat: number;
-  stat: { name: string };
-};
-
-type TTypesDatatype = {
-  type: { name: string };
-};
+import PokemonDetails from "@/components/pokemon-details";
 
 type TDatatype = {
-  sprites: TSpritesDatatype;
-  stats: TStatsDatatype[];
-  types: TTypesDatatype[];
+  id: number;
+  sprites: any;
+  stats: any[];
+  types: any[];
 };
 
 export default function PokemonPage() {
+  const router = useRouter();
   const params = useParams();
   const pokemonName = params.name as string;
 
@@ -55,26 +41,24 @@ export default function PokemonPage() {
     );
   }
 
-  const { sprites, stats, types } = data;
+  const { id, sprites, stats, types } = data;
 
   return (
-    <Container>
-      <Flex>Pokemon Details</Flex>
+    <CardContainer>
+      <Flex justify="space-evenly" align="center">
+        <PokemonDetails
+          pokemonId={id}
+          pokemonName={pokemonName}
+          sprites={sprites}
+          types={types}
+        />
 
-      <PokemonStatsContainer>
         <PokemonStats stats={stats} />
-      </PokemonStatsContainer>
-    </Container>
+      </Flex>
+    </CardContainer>
   );
 }
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-`;
-
-const PokemonStatsContainer = styled.div`
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 16px;
+const CardContainer = styled(StyledCardContainer)`
+  /* min-height: 400px; */
 `;

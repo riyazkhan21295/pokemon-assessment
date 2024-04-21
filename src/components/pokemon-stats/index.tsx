@@ -19,54 +19,52 @@ export default function PokemonStats({ stats }: IProps) {
   }, {});
 
   return (
-    <Container>
-      <Chart
-        type="radar"
-        series={[
-          {
-            name: "",
-            data: Object.values(statsHash) as number[],
-          },
-        ]}
-        options={{
-          chart: {
-            redrawOnParentResize: true,
-            redrawOnWindowResize: true,
-            toolbar: {
-              show: false,
-            },
-          },
-          labels: Object.keys(statsHash).map((_) => {
-            return _.replaceAll("-", " ").toUpperCase();
-          }),
-          plotOptions: {
-            radar: {
-              polygons: {
-                fill: {
-                  colors: ["#f8f8f8", "#fff"],
-                },
-              },
-            },
-          },
-          yaxis: {
+    <Chart
+      type="radar"
+      series={[
+        {
+          name: "",
+          data: Object.values(statsHash) as number[],
+        },
+      ]}
+      options={{
+        chart: {
+          redrawOnParentResize: true,
+          redrawOnWindowResize: true,
+          toolbar: {
             show: false,
           },
-          xaxis: {
-            labels: {
-              style: {
-                colors: Array(6).fill("#333"),
-                fontSize: "10px",
-                fontWeight: 500,
+        },
+        labels: Object.keys(statsHash).map((_) => {
+          return _.replaceAll("-", " ").toUpperCase();
+        }),
+        plotOptions: {
+          radar: {
+            polygons: {
+              fill: {
+                colors: ["#f8f8f8", "#fff"],
               },
             },
           },
-          dataLabels: {
-            enabled: true,
+        },
+        yaxis: {
+          show: false,
+        },
+        xaxis: {
+          labels: {
+            style: {
+              colors: Array(6).fill("#333"),
+              fontSize: "10px",
+              fontWeight: 500,
+            },
           },
-        }}
-      />
-    </Container>
+        },
+        dataLabels: {
+          enabled: true,
+        },
+      }}
+      height={300}
+      width={400}
+    />
   );
 }
-
-const Container = styled.div``;
