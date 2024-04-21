@@ -65,7 +65,7 @@ export default function PokemonStats({ stats }: IProps) {
           },
         }}
         height={300}
-        width={300}
+        width={400}
       />
     </Flex>
   );
