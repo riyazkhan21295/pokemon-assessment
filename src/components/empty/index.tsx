@@ -21,6 +21,7 @@ const Container = styled(Flex)`
   border-radius: 0.25rem;
 
   min-height: 200px;
+  width: 100%;
 `;
 
 const Text = styled.span``;

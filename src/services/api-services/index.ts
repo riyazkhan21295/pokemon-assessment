@@ -24,3 +24,7 @@ export async function fetchPokemonTypes() {
 export async function fetchPokemonList(apiUrl: string) {
   return fetchData(apiUrl);
 }
+
+export async function fetchPokemon(key: string) {
+  return fetchData(`${API_BASE_URL}/pokemon/${key}`);
+}

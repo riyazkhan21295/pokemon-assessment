@@ -26,36 +26,31 @@ export default function PokemonListContainer({ pokemonTypes }: IProps) {
 
       {pokemonTypes.map((pokemonType) => {
         return (
-          <PokemonListItemContainer
+          <PokemonList
             key={pokemonType.name}
-            direction="column"
-            gap="16px"
-            align="flex-start"
-          >
-            <PokemonTypeContainer
-              gap="16px"
-              align="center"
-              pokemonType={pokemonType.name}
-            >
-              <PokemonTypeTitle>{pokemonType.name}</PokemonTypeTitle>
-
-              <Image
-                src={require(`@/assets/pokemon-types/${pokemonType.name}.png`)}
-                width={24}
-                height={24}
-                alt={pokemonType.name}
-              />
-            </PokemonTypeContainer>
-
-            <PokemonList
-              pokemonType={pokemonType.name}
-              apiUrl={pokemonType.url}
-              searchedPokemonName={searchedPokemon}
-            />
-          </PokemonListItemContainer>
+            pokemonType={pokemonType.name}
+            apiUrl={pokemonType.url}
+            searchedPokemonName={searchedPokemon}
+            renderTitle={<PokemonTitle pokemonType={pokemonType.name} />}
+          />
         );
       })}
     </Container>
+  );
+}
+
+function PokemonTitle({ pokemonType }: { pokemonType: string }) {
+  return (
+    <PokemonTypeContainer gap="16px" align="center" pokemonType={pokemonType}>
+      <PokemonTypeTitle>{pokemonType}</PokemonTypeTitle>
+
+      <Image
+        src={require(`@/assets/pokemon-types/${pokemonType}.png`)}
+        width={24}
+        height={24}
+        alt={pokemonType}
+      />
+    </PokemonTypeContainer>
   );
 }
 
@@ -70,8 +65,6 @@ const InputField = styled.input`
 
   font-size: 16px;
 `;
-
-const PokemonListItemContainer = styled(Flex)``;
 
 const PokemonTypeContainer = styled(Flex)<{ pokemonType: string }>`
   padding: 16px;
