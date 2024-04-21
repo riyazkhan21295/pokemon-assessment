@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
@@ -9,10 +9,16 @@ import pokeBallOutlinedPic from "@/assets/pokeBall-outlined.svg";
 
 type IProps = {
   pokemonId: string;
+  pokemonType: string;
   pokemonName: string;
+  styles?: { container: CSSProperties };
 };
 
-export default function PokemonCard({ pokemonId, pokemonName }: IProps) {
+export default function PokemonCard({
+  pokemonType,
+  pokemonId,
+  pokemonName,
+}: IProps) {
   const newPokemonId = pokemonId.padStart(3, "0");
   const pokemonImageUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${newPokemonId}.png`;
 
@@ -30,15 +36,17 @@ export default function PokemonCard({ pokemonId, pokemonName }: IProps) {
     <Container direction="column" gap="8px" justify="center" align="center">
       <PokemonId>{newPokemonId}</PokemonId>
 
-      <Image
-        loading="lazy"
-        src={imageSrc}
-        width={100}
-        height={100}
-        alt={newPokemonId}
-        onLoadingComplete={() => setImageStatus("loaded")}
-        onError={() => setImageStatus("failed")}
-      />
+      <ImageContainer imageStatus={imageStatus}>
+        <Image
+          loading="lazy"
+          src={imageSrc}
+          width={100}
+          height={100}
+          alt={newPokemonId}
+          onLoadingComplete={() => setImageStatus("loaded")}
+          onError={() => setImageStatus("failed")}
+        />
+      </ImageContainer>
 
       <PokemonName>{pokemonName}</PokemonName>
     </Container>
@@ -77,6 +85,19 @@ const PokemonId = styled.div`
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /* tailwind */
+`;
+
+const ImageContainer = styled.div<{ imageStatus: string }>`
+  ${(props) => {
+    if (["loading", "failed"].includes(props.imageStatus)) return "";
+
+    return `
+      &:hover {
+        transform: scale(2);
+        transition: all 0.5s;
+      }
+    `;
+  }}
 `;
 
 const PokemonName = styled.span`

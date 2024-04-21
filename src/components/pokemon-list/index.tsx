@@ -35,9 +35,21 @@ export default function PokemonList({
 
   if (isError) return <p>Error</p>;
 
+  let filteredPokemonList = data?.pokemon || [];
+  if (searchedPokemonName) {
+    filteredPokemonList = filteredPokemonList.filter((pokemonItem) => {
+      const name = pokemonItem.pokemon.name.replaceAll("-", " ").toLowerCase();
+      const searchedName = searchedPokemonName
+        .replaceAll("-", " ")
+        .toLowerCase();
+
+      return name.includes(searchedName);
+    });
+  }
+
   return (
     <Container>
-      {data?.pokemon.map((pokemonItem) => {
+      {filteredPokemonList.map((pokemonItem) => {
         const pokemonId = pokemonItem.pokemon.url
           .split("/")
           .filter((_) => _)
@@ -46,6 +58,7 @@ export default function PokemonList({
         return (
           <PokemonCard
             key={pokemonId}
+            pokemonType={pokemonType}
             pokemonId={pokemonId!}
             pokemonName={pokemonItem.pokemon.name}
           />
