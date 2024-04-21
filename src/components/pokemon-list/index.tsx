@@ -66,6 +66,7 @@ export default function PokemonList({
         <PokemonTypeCard
           pokemonType={pokemonType as keyof typeof EPokemonTypes}
           iconSize={{ width: 32, height: 32 }}
+          styles={{ container: { backgroundColor: "#fff" } }}
         />
       </PokemonTypeCardContainer>
 
