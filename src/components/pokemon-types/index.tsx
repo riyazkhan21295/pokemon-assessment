@@ -19,11 +19,11 @@ type TApiResponseDatatype = {
   results: TResultDatatype[];
 };
 
-type IProps = {
+type TProps = {
   onSelect: (items: TResultDatatype[]) => void;
 };
 
-export default function PokemonTypes({ onSelect: onSelectCallback }: IProps) {
+export default function PokemonTypes({ onSelect: onSelectCallback }: TProps) {
   const { isLoading, isError, data } = useQuery<TApiResponseDatatype>({
     queryKey: ["pokemon-types"],
     queryFn: fetchPokemonTypes,

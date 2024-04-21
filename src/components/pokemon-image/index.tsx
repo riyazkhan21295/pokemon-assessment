@@ -5,7 +5,7 @@ import pokeBallOutlinedPic from "@/assets/pokeBall-outlined.svg";
 import Image from "next/image";
 import styled from "styled-components";
 
-type IProps = {
+type TProps = {
   pokemonId: string | number;
   alternateImageSrc?: string;
   width: number;
@@ -27,7 +27,7 @@ export default function PokemonImage({
   width,
   height,
   scaleImage = false,
-}: IProps) {
+}: TProps) {
   const pokemonId = pokemonIdProp.toString().padStart(3, "0");
   const pokemonImageUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokemonId}.png`;
 

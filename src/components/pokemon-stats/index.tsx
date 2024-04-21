@@ -6,11 +6,11 @@ type TStatsDatatype = {
   stat: { name: string };
 };
 
-type IProps = {
+type TProps = {
   stats: TStatsDatatype[];
 };
 
-export default function PokemonStats({ stats }: IProps) {
+export default function PokemonStats({ stats }: TProps) {
   const statsHash = stats.reduce((acc, cv) => {
     return {
       ...acc,

@@ -7,7 +7,7 @@ import { CSSProperties } from "react";
 
 type TPokemonType = `${EPokemonTypes}`;
 
-type IProps = {
+type TProps = {
   pokemonType: TPokemonType;
   iconSize: { width: number; height: number };
   showLabel?: boolean;
@@ -21,7 +21,7 @@ export default function PokemonTypeCard({
   iconSize,
   showLabel = true,
   styles,
-}: IProps) {
+}: TProps) {
   return (
     <Container gap="12px" align="center" style={{ ...styles?.container }}>
       <Icon $pokemonType={pokemonType}>

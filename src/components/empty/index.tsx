@@ -3,25 +3,23 @@ import styled from "styled-components";
 
 import { Flex } from "@/styles";
 
-type IProps = {
+type TProps = {
   icon?: any;
   text: string;
 };
 
-export default function Empty({ icon, text }: IProps) {
+export default function Empty({ icon, text }: TProps) {
   return (
     <Container direction="column" gap="16px" justify="center" align="center">
-      <Text>{text}</Text>
+      <span>{text}</span>
     </Container>
   );
 }
 
 const Container = styled(Flex)`
   background-color: #fff;
-  border-radius: 0.25rem;
+  border-radius: 4px;
 
   min-height: 200px;
   width: 100%;
 `;
-
-const Text = styled.span``;

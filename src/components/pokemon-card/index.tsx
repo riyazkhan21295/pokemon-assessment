@@ -5,7 +5,7 @@ import { Flex } from "@/styles";
 
 import PokemonImage from "@/components/pokemon-image";
 
-type IProps = {
+type TProps = {
   pokemonId: string;
   pokemonType: string;
   pokemonName: string;
@@ -16,7 +16,7 @@ export default function PokemonCard({
   pokemonType,
   pokemonId,
   pokemonName,
-}: IProps) {
+}: TProps) {
   return (
     <Container direction="column" gap="8px" justify="center" align="center">
       <PokemonId>{pokemonId}</PokemonId>

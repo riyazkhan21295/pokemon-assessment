@@ -5,15 +5,15 @@ import { Flex } from "@/styles";
 
 import PokemonList from "@/components/pokemon-list";
 
-type IProps = {
+type TProps = {
   pokemonTypes: { name: string; url: string }[];
 };
 
-export default function PokemonListContainer({ pokemonTypes }: IProps) {
+export default function PokemonListContainer({ pokemonTypes }: TProps) {
   const [searchedPokemon, setSearchedPokemon] = useState("");
 
   return (
-    <Container direction="column" gap="32px">
+    <Flex direction="column" gap="32px">
       <Flex justify="center">
         <InputField
           placeholder="Search Pokemon"
@@ -32,11 +32,9 @@ export default function PokemonListContainer({ pokemonTypes }: IProps) {
           />
         );
       })}
-    </Container>
+    </Flex>
   );
 }
-
-const Container = styled(Flex)``;
 
 const InputField = styled.input`
   min-width: 320px;

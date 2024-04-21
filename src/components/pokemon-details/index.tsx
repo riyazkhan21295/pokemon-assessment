@@ -18,7 +18,7 @@ type TTypesDatatype = {
   type: { name: string };
 };
 
-type IProps = {
+type TProps = {
   pokemonId: number;
   pokemonName: string;
   sprites: TSpritesDatatype;
@@ -30,7 +30,7 @@ export default function PokemonDetails({
   pokemonName,
   sprites,
   types,
-}: IProps) {
+}: TProps) {
   return (
     <Flex direction="column" justify="center" align="center" gap="16px">
       <PokemonImage

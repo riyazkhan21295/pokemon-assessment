@@ -9,29 +9,31 @@ import PokemonCard from "@/components/pokemon-card";
 import PokemonTypeCard from "@/components/pokemon-type-card";
 import { EPokemonTypes } from "@/types/enums";
 
-type IProps = {
+type TProps = {
   pokemonType: string;
   apiUrl: string;
   searchedPokemonName?: string | undefined;
 };
 
-type TDatatype = {
+type TPokemonDatatype = {
   pokemon: {
-    pokemon: {
-      name: string;
-      url: string;
-    };
-  }[];
+    name: string;
+    url: string;
+  };
+};
+
+type TApiResponseDatatype = {
+  pokemon: TPokemonDatatype[];
 };
 
 export default function PokemonList({
   apiUrl,
   pokemonType,
   searchedPokemonName,
-}: IProps) {
+}: TProps) {
   const router = useRouter();
 
-  const { isLoading, isError, data } = useQuery<TDatatype>({
+  const { isLoading, isError, data } = useQuery<TApiResponseDatatype>({
     queryKey: ["pokemon-list", apiUrl],
     queryFn: () => fetchPokemonList(apiUrl),
   });
