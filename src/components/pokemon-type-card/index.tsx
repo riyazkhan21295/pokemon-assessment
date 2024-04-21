@@ -2,13 +2,13 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import { Flex } from "@/styles";
-import { EPokemonTypes, EPokemonTypesColors } from "@/types/enums";
-import { CSSProperties } from "react";
 
-type TPokemonType = `${EPokemonTypes}`;
+import { EPokemonTypesColors } from "@/types/enums";
+import { CSSProperties } from "react";
+import { TPokemonTypes } from "@/types/types";
 
 type TProps = {
-  pokemonType: TPokemonType;
+  pokemonType: TPokemonTypes;
   iconSize: { width: number; height: number };
   showLabel?: boolean;
   styles?: {
@@ -52,7 +52,7 @@ const Text = styled.span`
   padding-right: 16px;
 `;
 
-const Icon = styled(Flex)<{ $pokemonType: TPokemonType }>`
+const Icon = styled(Flex)<{ $pokemonType: TPokemonTypes }>`
   background-color: ${(props) => {
     return EPokemonTypesColors[props.$pokemonType] || "#ccc";
   }};
