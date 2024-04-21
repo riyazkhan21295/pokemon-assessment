@@ -1,4 +1,5 @@
 import PokemonListPage from "@/page/pokemon-list";
+import { fetchPokemonTypes } from "@/services/api-services";
 import {
   dehydrate,
   HydrationBoundary,
@@ -10,7 +11,7 @@ const PokemonPage = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ["pokemon-types"],
-    queryFn: () => [],
+    queryFn: fetchPokemonTypes,
   });
 
   return (

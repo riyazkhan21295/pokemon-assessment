@@ -1,11 +1,13 @@
 "use client";
 
-import styled from "styled-components";
+import { Flex } from "@/styles";
+
+import PokemonTypes from "@/components/pokemon-types";
 
 export default function PokemonListPage() {
-  return <Title>Pokemon Assessment</Title>;
+  return (
+    <Flex direction="column" gap="16px">
+      <PokemonTypes />
+    </Flex>
+  );
 }
-
-const Title = styled.h1`
-  color: #fff;
-`;
