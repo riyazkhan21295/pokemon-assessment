@@ -1,10 +1,12 @@
-import PokemonListPage from "@/page/pokemon-list";
-import { fetchPokemonTypes } from "@/services/api-services";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+
+import { fetchPokemonTypes } from "@/services/api-services";
+
+import PokemonListPage from "@/page/pokemon-list";
 
 const PokemonPage = async () => {
   const queryClient = new QueryClient();

@@ -1,41 +1,44 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchPokemonTypes } from "@/services/api-services";
+import { Flex } from "@/styles";
+import { TPokemonTypes } from "@/types/types";
 import { EPokemonTypes, EPokemonTypesColors } from "@/types/enums";
+import { fetchPokemonTypes } from "@/services/api-services";
 
 import PokemonTypeCard from "@/components/pokemon-type-card";
-
-import { Flex } from "@/styles";
-
 import useCheckbox from "@/hooks/useCheckbox";
-import { useEffect } from "react";
-
-type TPokemonTypes = `${EPokemonTypes}`;
 
 type TResultDatatype = {
   name: TPokemonTypes;
   url: string;
 };
 
-type TDatatype = {
+type TApiResponseDatatype = {
   results: TResultDatatype[];
 };
 
 type IProps = {
-  onSelect: (items: any[]) => void;
+  onSelect: (items: TResultDatatype[]) => void;
 };
 
 export default function PokemonTypes({ onSelect: onSelectCallback }: IProps) {
-  const { isLoading, isError, data } = useQuery<TDatatype>({
+  const { isLoading, isError, data } = useQuery<TApiResponseDatatype>({
     queryKey: ["pokemon-types"],
     queryFn: fetchPokemonTypes,
+  });
+
+  const filteredResults = (data?.results || []).filter((pokemonType) => {
+    return ![EPokemonTypes.unknown, EPokemonTypes.shadow].includes(
+      pokemonType.name as any
+    );
   });
 
   const { selectedItems, onSelect } = useCheckbox({ multiple: true });
 
   useEffect(() => {
-    const newSelectedItems = (data?.results || []).filter((item) => {
+    const newSelectedItems = filteredResults.filter((item) => {
       return selectedItems.includes(item.name);
     });
 
@@ -44,13 +47,7 @@ export default function PokemonTypes({ onSelect: onSelectCallback }: IProps) {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Error</p>;
-
-  const filteredResults = (data?.results || []).filter((pokemonType) => {
-    return ![EPokemonTypes.unknown, EPokemonTypes.shadow].includes(
-      pokemonType.name as any
-    );
-  });
+  if (isError) return <p>Error...</p>;
 
   return (
     <Container direction="column" gap="8px" align="center">

@@ -34,10 +34,6 @@ const Container = styled(Flex)`
   padding: 8px;
   border-radius: 4px;
 
-  flex: 1;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /* tailwind */
-
   position: relative;
 `;
 
@@ -58,9 +54,9 @@ const PokemonId = styled.div`
   }
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /* tailwind */
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `;
 
-const PokemonName = styled.span`
+const PokemonName = styled.div`
   text-transform: capitalize;
 `;

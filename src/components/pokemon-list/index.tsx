@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 
-import { Flex } from "@/styles";
+import { CardContainer, Flex } from "@/styles";
 
 import { fetchPokemonList } from "@/services/api-services";
 import PokemonCard from "@/components/pokemon-card";
@@ -103,9 +103,8 @@ const PokemonListContainer = styled(Flex)`
   padding: 16px;
 `;
 
-const PokemonCardContainer = styled.div`
-  background-color: #fff;
-
+const PokemonCardContainer = styled(CardContainer)`
+  padding: 0;
   width: 100%;
 
   @media (min-width: 600px) {

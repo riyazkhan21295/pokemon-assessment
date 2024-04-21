@@ -12,10 +12,10 @@ export const Flex = styled.div<TFlexProps>`
 `;
 
 export const CardContainer = styled.div`
-  padding: 1rem;
-  border-radius: 0.25rem;
+  padding: 16px;
+  border-radius: 4px;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /* tailwind */
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `;
