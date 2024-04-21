@@ -15,7 +15,7 @@ export default function PokemonListContainer({ pokemonTypes }: IProps) {
   const [searchedPokemon, setSearchedPokemon] = useState("");
 
   return (
-    <Container direction="column" gap="32px" align="center">
+    <Container direction="column" gap="32px">
       <Flex>
         <InputField
           placeholder="Search Pokemon"

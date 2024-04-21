@@ -54,7 +54,7 @@ export default function PokemonTypes({ onSelect }: IProps) {
   }, {});
 
   return (
-    <Container direction="column" gap="8px" align="center">
+    <Container direction="column" gap="8px">
       <PokemonType>Pokemon Types</PokemonType>
 
       <CardCheckbox
@@ -70,7 +70,6 @@ export default function PokemonTypes({ onSelect }: IProps) {
         valueKey="name"
         onSelect={onSelect}
         styles={{
-          container: { justifyContent: "center" },
           itemContainer: { minWidth: 100 },
         }}
         icons={icons}
